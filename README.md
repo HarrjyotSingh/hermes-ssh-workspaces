@@ -87,12 +87,14 @@ The installed plugin must be a normal Git checkout on `main` with an
 `origin` remote. Do not install it as a symlink: the dashboard's **Update**
 button runs `git pull --ff-only` inside `~/.hermes/plugins/hermes-editor`.
 
-This installation uses a local canonical repository at
-`~/.hermes/plugin-remotes/hermes-editor.git`; it can be replaced with a
-hosted Git remote later without changing the plugin layout.
+Install the public repository as a normal Git checkout. This plugin requires
+a Hermes version that supports external dashboard and Desktop runtime plugins.
+SSH workspaces additionally require OpenSSH on the Hermes backend, key-based
+SSH access to each remote machine, and Python 3 on each remote machine.
 
 ```bash
-git clone --branch main ~/.hermes/plugin-remotes/hermes-editor.git \
+git clone --branch main \
+  https://github.com/HarrjyotSingh/hermes-ssh-workspaces.git \
   ~/.hermes/plugins/hermes-editor
 git -C ~/.hermes/plugins/hermes-editor config pull.ff only
 ```
