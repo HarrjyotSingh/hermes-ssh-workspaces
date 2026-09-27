@@ -1,0 +1,10 @@
+name: hermes-editor
+version: 0.5.0
+description: "Update-safe external editor plugin for the Hermes desktop dashboard (Stage 5A multi-machine workspaces)"
+author: local
+kind: backend
+# Contribution contract: every future contribution (tools, hooks, slots,
+# routes) uses IDs prefixed with "hermes-editor." so it can never collide
+# with bundled plugins or the jarvis-dashboard plugin.
+provides_tools: []
+provides_hooks: []

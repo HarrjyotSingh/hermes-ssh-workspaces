@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+
+# Local machine configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+id_ed25519
+id_ecdsa
+id_dsa
+
+# Per-install workspace registry and local state
+workspace-config.json
+hermes-editor-state/
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+
+# Runtime/test artifacts
+*.log
+*.tmp
+*.bak
+.DS_Store

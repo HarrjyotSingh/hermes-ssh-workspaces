@@ -1,0 +1,34 @@
+{
+  "name": "hermes-editor-build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build-css.mjs && esbuild src/entry.js --bundle --format=iife --minify --loader:.woff2=dataurl --loader:.woff=dataurl --loader:.ttf=dataurl --outfile=../dashboard/dist/bundle.js",
+    "build:test": "esbuild src/md-core.js --bundle --format=cjs --outfile=dist-md-core.cjs",
+    "build:desktop": "node ../desktop/build.mjs",
+    "build:css": "node build-css.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "^0.25.5",
+    "katex": "^0.16.11",
+    "markdown-it": "^14.1.0",
+    "monaco-editor": "0.52.2",
+    "prosemirror-commands": "^1.7.1",
+    "prosemirror-history": "^1.4.1",
+    "prosemirror-inputrules": "1.4.0",
+    "prosemirror-keymap": "^1.2.3",
+    "prosemirror-model": "^1.25.0",
+    "prosemirror-schema-list": "^1.5.1",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-tables": "^1.6.4",
+    "prosemirror-view": "^1.40.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "jsdom": "^30.1.1"
+  }
+}

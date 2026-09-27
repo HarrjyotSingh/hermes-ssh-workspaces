@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- hermes-editor dev harness (Stage 4): WYSIWYG markdown memory + function.
+     Static page only - no backend calls, no auth, nothing outside the browser. -->
+<html>
+<head>
+<meta charset="utf-8">
+<title>hermes-editor md harness</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { margin:0; background:#1e1e1e; color:#ddd; font-family:sans-serif; }
+  #host { width:90vw; height:60vh; overflow:auto; border:1px solid #555; }
+  #out { white-space:pre; padding:8px; font-family:monospace; font-size:12px; }
+</style>
+</head>
+<body>
+<div id="toolbar"></div>
+<div id="host"></div>
+<pre id="out">loading...</pre>
+<script src="bundle.js"></script>
+<script>
+(function () {
+  var out = document.getElementById("out");
+  function heap() {
+    var m = performance.memory || {};
+    return m.usedJSHeapSize != null ? Math.round(m.usedJSHeapSize/1048576) + " MiB" : "n/a";
+  }
+  function log(s) { out.textContent += s + "\n"; }
+  var MD = window.__HERMES_EDITOR_MD__;
+  var UI = window.__HERMES_EDITOR_UI__;
+  if (!MD || !UI) { log("FATAL: bundle did not load"); return; }
+
+  // build a realistically large note
+  var paras = [];
+  for (var i = 0; i < 300; i++) {
+    paras.push("## Section " + i + "\n\nParagraph with *emphasis*, **strong**, `code`, " +
+      "a [link](https://example.com/" + i + ") and [[Page" + i + "|alias]].\n\n" +
+      "- item one\n- [x] task two\n  - nested\n\n> quote block " + i + "\n\n" +
+      "| A | B |\n|---|---|\n| " + i + " | x |\n\n```python\nx = " + i + "\n```\n");
+  }
+  var src = "---\ntitle: Big Note\n---\n\n# Big Note\n\n" + paras.join("\n");
+
+  var t0 = performance.now();
+  var docJSON = MD.parseMarkdown(src);
+  var t1 = performance.now();
+  var ser = MD.serializeMarkdown(docJSON).markdown;
+  var t2 = performance.now();
+  var rt = MD.roundTripStable(src);
+
+  log("heap baseline: " + heap());
+  log("parse  ~" + Math.round(t1-t0) + " ms (" + docJSON.content.length + " blocks)");
+  log("serial ~" + Math.round(t2-t1) + " ms");
+  log("round-trip stable: " + rt.stable);
+  log("wikilink nodes preserved: " + (ser.match(/\[\[/g)||[]).length + " of " + (src.match(/\[\[/g)||[]).length));
+
+  window.__heApi = UI.createMdEditor(document.getElementById("host"), {
+    docJSON: docJSON,
+    resolveWiki: function (t3) { return t3 === "Page7" ? { path: "page7.md" } : null; },
+    openWiki: function () {},
+    openExternal: function () {},
+    suggestPages: function () { return [{ label: "Alpha", sub: "a.md" }, { label: "Beta", sub: "b.md" }]; },
+    suggestHeadings: function () { return ["Section A"]; },
+  });
+
+  setTimeout(function () {
+    log("heap after ProseMirror mount: " + heap());
+    // exercise an edit + save-serialization path
+    __heApi.run("bold");
+    var json2 = __heApi.toJSON();
+    var md2 = MD.serializeMarkdown(json2).markdown;
+    log("post-edit serialize ok: " + (md2.length > 1000));
+    document.title = "harness-done";
+  }, 4000);
+})();
+</script>
+</body>
+</html>

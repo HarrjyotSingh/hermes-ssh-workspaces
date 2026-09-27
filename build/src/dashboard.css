@@ -1,0 +1,557 @@
+/* Hermes Editor - scoped styles (Stage 3).
+ *
+ * All selectors are namespaced under .he-* to avoid collisions with the
+ * dashboard. Colors reference the host theme's CSS variables so the page
+ * automatically reskins with custom themes; this file never touches
+ * :root or [data-skin].
+ */
+
+.he-page {
+  max-width: none;
+  margin: 0 auto;
+  padding: calc(0.5rem * var(--spacing-mul, 1));
+}
+
+/* ---------------- layout ---------------- */
+
+.he-editor-layout {
+  display: flex;
+  gap: 8px;
+  height: min(72vh, 720px);
+}
+
+.he-sidebar {
+  width: 260px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius, 0.5rem);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  overflow: hidden;
+}
+
+.he-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius, 0.5rem);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  overflow: hidden;
+}
+
+/* ---------------- root selector + tree ---------------- */
+
+.he-root-select {
+  margin: 6px;
+  padding: 4px 6px;
+  font-size: 0.85rem;
+  background: var(--color-background, transparent);
+  color: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius, 0.5rem) / 2);
+}
+
+/* ---------------- Stage 5A workspace selector + management ---------------- */
+
+.he-ws-select {
+  position: relative;
+  margin: 6px;
+}
+
+.he-ws-current {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 8px;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  background: var(--color-background, transparent);
+  color: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius, 0.5rem) / 2);
+}
+
+.he-ws-current .he-ws-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.he-ws-host {
+  color: var(--color-muted-foreground, #888);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.he-ws-endpoint {
+  margin-left: auto;
+  margin-right: 4px;
+  color: var(--color-muted-foreground, #888);
+  font-size: 0.7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.he-ws-caret {
+  flex-shrink: 0;
+}
+
+.he-ws-menu {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  max-height: 320px;
+  overflow: auto;
+  background: var(--color-popover, var(--color-card, #fff));
+  color: var(--color-card-foreground, inherit);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius, 0.5rem) / 2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.he-ws-option {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.he-ws-option:hover,
+.he-ws-option-current {
+  background: var(--color-accent, rgba(128, 128, 128, 0.15));
+}
+
+.he-ws-option .he-ws-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.he-ws-option .he-ws-root {
+  margin-left: auto;
+  color: var(--color-muted-foreground, #888);
+  font-size: 0.7rem;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.he-ws-disabled {
+  color: var(--color-destructive, #c33);
+  font-size: 0.7rem;
+}
+
+.he-ws-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.he-ws-online {
+  background: #3fb950;
+}
+
+.he-ws-offline {
+  background: #f85149;
+}
+
+.he-ws-unknown {
+  background: #d29922;
+}
+
+.he-ws-offline-banner {
+  margin: 6px;
+  padding: 6px 8px;
+  font-size: 0.75rem;
+  border: 1px solid #f85149;
+  border-radius: calc(var(--radius, 0.5rem) / 2);
+  color: #f85149;
+}
+
+.he-status-ws {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* manage-workspaces dialog */
+
+.he-modal-wide {
+  width: min(560px, 92vw);
+  max-height: 86vh;
+  overflow: auto;
+}
+
+.he-mw-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.he-mw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.78rem;
+}
+
+.he-mw-field > span {
+  color: var(--color-muted-foreground, #888);
+}
+
+.he-mw-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.he-mw-list {
+  border-top: 1px solid var(--color-border);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+.he-mw-list-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.he-mw-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+}
+
+.he-mw-row-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.he-mw-error {
+  color: #f85149;
+  font-size: 0.78rem;
+  margin-top: 6px;
+}
+
+.he-tree {
+  flex: 1;
+  overflow: auto;
+  font-size: 0.85rem;
+  padding-bottom: 6px;
+}
+
+.he-tree-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 8px;
+}
+
+.he-tree-row:hover {
+  background: var(--color-accent, rgba(128, 128, 128, 0.15));
+}
+
+.he-tree-row-active {
+  background: var(--color-muted, rgba(128, 128, 128, 0.2));
+}
+
+.he-tree-glyph {
+  opacity: 0.6;
+  width: 1em;
+  text-align: center;
+}
+
+.he-tree-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.he-tree-size {
+  margin-left: auto;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.he-tree-loading,
+.he-tree-status {
+  opacity: 0.6;
+  padding: 4px 10px;
+  font-style: italic;
+}
+
+/* ---------------- tabs ---------------- */
+
+.he-tabs {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-muted, transparent);
+  min-height: 32px;
+}
+
+.he-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 12px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border-right: 1px solid var(--color-border);
+  max-width: 220px;
+}
+
+.he-tab:hover {
+  background: var(--color-accent, rgba(128, 128, 128, 0.15));
+}
+
+.he-tab-active {
+  background: var(--color-card);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-ring, var(--color-primary, currentColor));
+}
+
+.he-tab-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.he-tab-close {
+  all: unset;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 3px;
+  border-radius: 3px;
+  opacity: 0.55;
+}
+
+.he-tab-close:hover {
+  opacity: 1;
+  background: rgba(128, 128, 128, 0.25);
+}
+
+.he-dirty-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-warning, #d97706);
+  flex-shrink: 0;
+}
+
+/* ---------------- editor area ---------------- */
+
+.he-editor-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.he-monaco-host {
+  flex: 1;
+  min-height: 0;
+}
+
+.he-hidden {
+  visibility: hidden;
+}
+
+.he-editor-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.65;
+  font-size: 0.9rem;
+}
+
+.he-statusbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  opacity: 0.9;
+}
+
+.he-statusbar > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.he-status-dirty {
+  color: var(--color-warning, #d97706);
+  font-weight: 600;
+}
+
+.he-status-clean {
+  opacity: 0.65;
+}
+
+/* ---------------- fallback (binary/oversized) & empty state ------- */
+
+.he-fallback,
+.he-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 24px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.he-fallback-title {
+  font-weight: 600;
+}
+
+.he-fallback-hint {
+  opacity: 0.7;
+  max-width: 480px;
+}
+
+.he-empty {
+  opacity: 0.55;
+}
+
+/* ---------------- buttons & modal ---------------- */
+
+.he-btn {
+  all: unset;
+  cursor: pointer;
+  padding: 5px 12px;
+  font-size: 0.82rem;
+  border-radius: calc(var(--radius, 0.5rem) / 2);
+  border: 1px solid var(--color-border);
+  background: var(--color-secondary, transparent);
+  color: var(--color-secondary-foreground, inherit);
+}
+
+.he-btn:hover {
+  border-color: var(--color-ring, currentColor);
+}
+
+.he-btn-small {
+  padding: 2px 8px;
+  font-size: 0.72rem;
+}
+
+.he-btn-danger {
+  background: var(--color-destructive, #b91c1c);
+  color: var(--color-destructive-foreground, #fff);
+  border-color: var(--color-destructive, #b91c1c);
+}
+
+.he-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.he-modal {
+  max-width: 440px;
+  width: 90%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius, 0.5rem);
+  background: var(--color-card);
+  color: var(--color-card-foreground);
+  padding: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.he-modal-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.he-modal-message {
+  font-size: 0.88rem;
+  opacity: 0.85;
+  margin-bottom: 16px;
+  word-break: break-word;
+}
+
+.he-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* @hermes-editor-shared */
+.he-input {
+  width: 100%;
+  padding: 6px 8px;
+  margin-top: 6px;
+  font-size: 0.88rem;
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius, 0.5rem) / 2);
+  background: var(--color-background, transparent);
+  color: inherit;
+}
+
+/* ------------------------------------------------------------------
+   Stage 5B: live synchronization (all classes scoped .he-*)
+   ------------------------------------------------------------------ */
+.he-conflict-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(220, 120, 30, 0.14);
+}
+.he-conflict-bar.he-conflict-info { background: rgba(90, 140, 220, 0.14); }
+.he-conflict-msg { flex: 1 1 auto; min-width: 200px; }
+.he-diff-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+.he-diff-note {
+  font-size: 0.78rem;
+  opacity: 0.75;
+  padding: 4px 12px;
+}
+.he-diff-host {
+  flex: 1;
+  min-height: 240px;
+}

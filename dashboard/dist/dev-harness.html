@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- hermes-editor dev harness: measures client-side Monaco memory.
+     Static page only - no backend calls, no auth, nothing executed
+     outside the browser. Served from the plugin asset route. -->
+<html>
+<head>
+<meta charset="utf-8">
+<title>hermes-editor monaco harness</title>
+<style>
+  body { margin: 0; background: #1e1e1e; color: #ddd; font-family: monospace; }
+  #editor { width: 100vw; height: 70vh; }
+  #out { white-space: pre; padding: 8px; }
+</style>
+</head>
+<body>
+<div id="editor"></div>
+<div id="out">loading...</div>
+<script src="monaco/vs/loader.js"></script>
+<script>
+(function () {
+  var out = document.getElementById("out");
+  function heap() {
+    var m = performance.memory || {};
+    return m.usedJSHeapSize != null
+      ? Math.round(m.usedJSHeapSize / 1048576) + " MiB"
+      : "unavailable";
+  }
+  function log(s) { out.textContent += s + "\n"; }
+  out.textContent = "heap before loader: " + heap() + "\n";
+
+  require.config({ paths: { vs: "monaco/vs" } });
+  require(["vs/editor/editor.main"], function () {
+    var pyLines = [];
+    for (var i = 0; i < 4000; i++) {
+      pyLines.push("def func_" + i + "(arg_" + i + "):\n    return arg_" + i +
+                   " * " + i + "  # comment line " + i);
+    }
+    var editor = monaco.editor.create(document.getElementById("editor"), {
+      value: pyLines.join("\n"),
+      language: "python",
+      theme: "vs-dark",
+    });
+    setTimeout(function () {
+      log("heap after editor+4000-line python: " + heap());
+      // exercise every stage-3 language once
+      ["c", "cpp", "yaml", "json", "dockerfile", "shell", "plaintext"].forEach(function (lang) {
+        var m = monaco.editor.createModel("# sample\n", lang);
+        editor.setModel(m);
+        editor.getModel().getWordUntilPosition;
+      });
+      setTimeout(function () {
+        log("heap after cycling all languages: " + heap());
+        document.title = "harness-done";
+      }, 2500);
+    }, 3000);
+  }, function (err) {
+    log("FAILED to load Monaco: " + err);
+  });
+})();
+</script>
+</body>
+</html>

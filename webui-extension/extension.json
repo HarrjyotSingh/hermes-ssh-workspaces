@@ -1,0 +1,50 @@
+{
+  "id": "hermes-editor",
+  "name": "Hermes Editor",
+  "description": "Open Workspace files in the Stage 4 Markdown and code editor.",
+  "version": "0.9.0",
+  "author": "local",
+  "assets": {
+    "scripts": [
+      "assets/hermes-editor.js"
+    ],
+    "stylesheets": [
+      "assets/hermes-editor.css"
+    ]
+  },
+  "capabilities": [
+    "manifest-bundle"
+  ],
+  "lifecycle": {
+    "webui_restart_required": false,
+    "sidecar_start_required": false,
+    "native_host_start_required": false,
+    "native_host_autostart": "none"
+  },
+  "screenshots": [],
+  "permissions": {
+    "webui_api": {
+      "read": [],
+      "write": []
+    },
+    "webui_navigation": false,
+    "dom": {
+      "owned": true,
+      "mutates_core_views": false
+    },
+    "storage": {
+      "owned": true,
+      "shared_webui_keys": []
+    },
+    "loopback_sidecar": false,
+    "native_host": false,
+    "filesystem": {
+      "arbitrary": false,
+      "serves_bundled_assets": true
+    },
+    "network_external": false,
+    "embeds_iframe": false,
+    "requires_csp_frame_extra": false
+  },
+  "settings_schema": []
+}

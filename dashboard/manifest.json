@@ -1,0 +1,15 @@
+{
+  "name": "hermes-editor",
+  "label": "Hermes Editor",
+  "description": "Update-safe external editor plugin - Stage 5A multi-machine workspaces",
+  "icon": "PenLine",
+  "version": "0.5.0",
+  "tab": {
+    "path": "/hermes-editor",
+    "position": "end"
+  },
+  "slots": [],
+  "entry": "dist/index.js",
+  "css": "dist/style.css",
+  "api": "plugin_api.py"
+}

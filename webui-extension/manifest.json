@@ -1,0 +1,17 @@
+{
+  "id": "hermes-editor",
+  "name": "Hermes Editor",
+  "description": "Open Workspace files in the Stage 4 Markdown and code editor.",
+  "scripts": [
+    "assets/hermes-editor.js"
+  ],
+  "stylesheets": [
+    "assets/hermes-editor.css"
+  ],
+  "permissions": {
+    "storage": {
+      "owned": true
+    }
+  },
+  "settings_schema": []
+}

@@ -1,0 +1,23 @@
+/* Stage 4 editor appears only after a file is selected from Workspace. */
+.rightpanel > #he5cEditorPanel { display: none; }
+.rightpanel.he5c-editor-active > :not(.resize-handle):not(#he5cEditorPanel) { display: none !important; }
+.rightpanel.he5c-editor-active > #he5cEditorPanel { display: flex; flex: 1; min-height: 0; flex-direction: column; }
+.rightpanel.he5c-editor-active { width: min(52vw, 680px); min-width: 420px; }
+#he5cEditorPanel { --color-accent:var(--accent); --color-background:var(--bg); --color-border:var(--border); --color-card:var(--surface); --color-card-foreground:var(--text); --color-destructive:var(--error); --color-destructive-foreground:#fff; --color-link:var(--accent); --color-muted:var(--surface-subtle); --color-muted-foreground:color-mix(in srgb,var(--text) 62%,transparent); --color-popover:var(--surface); --color-popover-foreground:var(--text); --color-primary:var(--accent); --color-ring:var(--focus-ring); --color-secondary:var(--surface-subtle); --color-secondary-foreground:var(--text); --color-warning:var(--accent-hover); --radius:var(--radius-sm); background:var(--bg); color:var(--text); font-family:var(--font-ui); }
+#he5cEditorPanel .he5c-editor-header { display:flex; align-items:center; justify-content:space-between; min-height:46px; padding:0 12px 0 16px; border-bottom:1px solid var(--border); color:var(--text); font-size:12px; font-weight:600; overflow:hidden; }
+#he5cEditorTitle { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#he5cEditorRoot,#he5cEditorPanel .he-page,#he5cEditorPanel .he-editor-layout { flex:1; min-height:0; min-width:0; display:flex; }
+#he5cEditorPanel .he-editor-layout { height:100%; }
+#he5cEditorPanel .he-sidebar { display:none; }
+#he5cEditorPanel.he5c-editor-browse .he-editor-layout { flex-direction:column; gap:8px; }
+#he5cEditorPanel.he5c-editor-browse .he-sidebar { display:flex; width:auto; min-width:0; min-height:150px; max-height:42%; overflow:visible; }
+#he5cEditorPanel.he5c-editor-browse .he-tree { min-height:0; overflow:auto; }
+#he5cEditorPanel .he-main { min-width:0; }
+@media (max-width:900px) { .rightpanel.he5c-editor-active { min-width:0; width:var(--mobile-rightpanel-width) !important; } }
+/* Visible editor-error state (used when the Stage 5C bridge/assets fail). */
+#he5cEditorPanel .he5c-editor-error { margin:16px; padding:16px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--surface); color:var(--text); font-size:13px; }
+#he5cEditorPanel .he5c-editor-error-title { font-weight:600; margin-bottom:8px; color:var(--error); }
+#he5cEditorPanel .he5c-editor-error-msg { margin-bottom:12px; color:var(--text); line-height:1.5; white-space:pre-wrap; }
+#he5cEditorPanel .he5c-editor-error-actions { display:flex; gap:8px; }
+#he5cEditorPanel .he5c-editor-error-btn { padding:6px 12px; font-size:12px; font-weight:600; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--surface-subtle); color:var(--text); cursor:pointer; }
+#he5cEditorPanel .he5c-editor-error-btn:hover { background:var(--surface-subtle-hover, var(--surface)); }

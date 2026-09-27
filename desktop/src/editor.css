@@ -1,0 +1,387 @@
+.he-desktop-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.he-desktop-editor > header {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 6px 10px;
+}
+
+.he-desktop-editor > header > :first-child {
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.he-desktop-editor-host {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  position: relative;
+  /* Desktop tab shells may disable selection for their surrounding surfaces.
+     ProseMirror needs real pointer input and text selection to place a caret;
+     contenteditable alone does not restore either host-level behavior. */
+  pointer-events: auto;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.he-desktop-editor-host .he-prosemirror {
+  pointer-events: auto;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* Status-bar workspace picker */
+.he-workspace-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.he-workspace-picker > span {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ui-text-tertiary, var(--ui-text-secondary, currentColor));
+}
+
+.he-workspace-picker .he-workspace-picker-select {
+  max-width: 36rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 6px;
+  border: 1px solid var(--ui-stroke-tertiary, transparent);
+  background-color: var(--ui-widget-surface-background, rgba(127, 127, 127, 0.15));
+  color: var(--ui-text-primary, currentColor);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.he-workspace-picker .he-workspace-picker-select:hover,
+.he-workspace-picker .he-workspace-picker-select:focus-visible {
+  outline: none;
+  border-color: var(--theme-primary, currentColor);
+}
+
+.he-workspace-picker .he-workspace-picker-select:focus-visible {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--theme-primary, currentColor) 40%, transparent);
+}
+
+.he-workspace-picker .he-workspace-picker-select option {
+  background-color: var(--ui-bg-elevated, canvas);
+  color: var(--ui-text-primary, canvastext);
+}
+
+/* Workspace picker: add button + dialog */
+.he-workspace-picker-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: 5px;
+  border: 1px solid var(--ui-stroke-secondary, transparent);
+  background-color: var(--ui-widget-surface-background, rgba(127, 127, 127, 0.15));
+  color: var(--ui-text-primary, currentColor);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.he-workspace-picker-add:hover {
+  border-color: var(--theme-primary, currentColor);
+  color: var(--theme-primary, currentColor);
+}
+
+.he-ws-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, #000 55%, transparent);
+}
+
+.he-ws-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: min(22rem, calc(100vw - 3rem));
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--ui-stroke-secondary, transparent);
+  background-color: var(--ui-bg-elevated, canvas);
+  color: var(--ui-text-primary, canvastext);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+}
+
+.he-ws-dialog h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.he-ws-dialog label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ui-text-tertiary, var(--ui-text-secondary, currentColor));
+}
+
+.he-ws-dialog input,
+.he-ws-dialog select {
+  width: 100%;
+  padding: 0.3rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid var(--ui-stroke-secondary, transparent);
+  background-color: var(--ui-widget-surface-background, rgba(127, 127, 127, 0.15));
+  color: var(--ui-text-primary, currentColor);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+}
+
+.he-ws-dialog input:focus,
+.he-ws-dialog select:focus {
+  outline: none;
+  border-color: var(--theme-primary, currentColor);
+}
+
+.he-ws-error {
+  color: #ff6b6b;
+  font-size: 11px;
+}
+
+.he-ws-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.he-ws-actions button {
+  padding: 0.28rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid var(--ui-stroke-secondary, transparent);
+  background-color: transparent;
+  color: var(--ui-text-primary, currentColor);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.he-ws-actions button.primary {
+  background-color: var(--theme-primary, currentColor);
+  border-color: var(--theme-primary, transparent);
+  color: #04121a;
+  font-weight: 600;
+}
+
+.he-ws-actions button:hover:not(:disabled) {
+  border-color: var(--theme-primary, currentColor);
+}
+
+/* Workspaces pane */
+.he-wsp {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 0.6rem;
+  overflow-y: auto;
+  color: var(--ui-text-primary, currentColor);
+}
+
+.he-wsp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ui-text-tertiary, var(--ui-text-secondary, currentColor));
+}
+
+.he-wsp-head-actions { display: inline-flex; gap: 0.3rem; }
+
+.he-wsp-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1px solid var(--ui-stroke-secondary, transparent);
+  background-color: var(--ui-widget-surface-background, rgba(127, 127, 127, 0.15));
+  color: var(--ui-text-primary, currentColor);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.he-wsp-iconbtn:hover, .he-wsp-iconbtn.active {
+  border-color: var(--theme-primary, currentColor);
+  color: var(--theme-primary, currentColor);
+}
+
+.he-wsp-meta { font-size: 11px; line-height: 1.5; }
+.he-wsp-root { color: var(--ui-text-secondary, currentColor); font-family: ui-monospace, monospace; font-size: 10px; word-break: break-all; }
+.he-wsp-section-title { margin-top: 0.35rem; font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ui-text-tertiary, currentColor); }
+.he-wsp-empty { font-size: 11px; color: var(--ui-text-tertiary, currentColor); }
+.he-wsp-chat {
+  display: block; width: 100%; text-align: left; padding: 0.28rem 0.45rem; margin-top: 2px;
+  border-radius: 6px; border: 1px solid transparent; background-color: transparent;
+  color: var(--ui-text-primary, currentColor); font-size: 12px; cursor: pointer;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.he-wsp-chat:hover { background-color: var(--ui-widget-surface-background, rgba(127,127,127,0.15)); border-color: var(--ui-stroke-tertiary, transparent); }
+.he-wsp-note { font-size: 11px; color: var(--ui-text-secondary, currentColor); }
+.he-wsp-manage { display: flex; flex-direction: column; gap: 3px; }
+.he-wsp-manage-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
+.he-wsp-manage-row button {
+  width: 18px; height: 18px; border-radius: 5px; border: 1px solid var(--ui-stroke-secondary, transparent);
+  background: transparent; color: var(--ui-text-secondary, currentColor); cursor: pointer; font-size: 10px;
+}
+.he-wsp-manage-row button:hover { color: #ff6b6b; border-color: #ff6b6b; }
+
+/* Workspaces pane v2: native control polish */
+.he-wsp-trigger {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.he-wsp .he-wsp-chat {
+  width: 100%;
+  justify-content: flex-start;
+  font-weight: 400;
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
+}
+
+.he-wsp .he-wsp-manage-row button {
+  color: var(--ui-text-secondary, currentColor);
+}
+
+/* Workspaces pane: actions row */
+.he-wsp-actions { margin-top: 0.15rem; }
+.he-wsp .he-wsp-newchat { width: 100%; }
+
+/* Workspaces pane: project link row */
+.he-wsp-project-row { display: flex; align-items: center; margin-bottom: 0.35rem; }
+
+/* Plugin-owned workspace file explorer. */
+.he-file-explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-height: 8rem;
+  max-height: min(48vh, 36rem);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--ui-stroke-secondary, rgba(127,127,127,0.25));
+  font-size: 12px;
+}
+.he-file-explorer-header, .he-file-explorer-create,
+.he-file-explorer-list li, .he-file-explorer-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.he-file-explorer-header nav { flex: 1; min-width: 0; overflow: auto; white-space: nowrap; }
+.he-file-explorer button { cursor: pointer; }
+.he-file-explorer-header button, .he-file-explorer-list button {
+  padding: 0.15rem 0.3rem;
+  border: 0;
+  border-radius: 4px;
+  color: inherit;
+  background: transparent;
+  font-size: inherit;
+}
+.he-file-explorer button:hover { background: var(--ui-widget-surface-background, rgba(127,127,127,0.15)); }
+.he-file-explorer button:disabled { cursor: default; opacity: 0.55; }
+.he-file-explorer-create input { flex: 1; min-width: 0; }
+.he-file-explorer-create select { max-width: 4.5rem; }
+.he-file-explorer-create input, .he-file-explorer-create select {
+  padding: 0.25rem;
+  border: 1px solid var(--ui-stroke-secondary, rgba(127,127,127,0.35));
+  border-radius: 4px;
+  color: inherit;
+  background: var(--ui-editor-surface-background, transparent);
+}
+.he-file-explorer-hidden-toggle { color: var(--ui-text-secondary, currentColor); }
+.he-file-explorer-list { min-height: 0; overflow: auto; margin: 0; padding: 0; list-style: none; }
+.he-file-explorer-list li { min-height: 1.75rem; }
+.he-file-explorer-list .he-file-explorer-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.he-file-explorer-actions button { color: var(--ui-text-secondary, currentColor); }
+.he-file-explorer-list .is-hidden { opacity: 0.6; }
+.he-file-explorer-error { color: #ff8a8a; }
+.he-file-explorer-empty { color: var(--ui-text-tertiary, currentColor); }
+
+/* Add-workspace dialog: also-project checkbox */
+.he-ws-also {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  font-size: 12px;
+  color: var(--ui-text-secondary, currentColor);
+  cursor: pointer;
+}
+
+.he-ws-also input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--theme-primary, currentColor);
+}
+
+/* Offline awareness: banner + copy-log control */
+.he-offline-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0.5rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, #ffb454 55%, transparent);
+  background-color: color-mix(in srgb, #ffb454 12%, var(--ui-bg-elevated, rgba(0, 0, 0, 0.4)));
+  color: var(--ui-text-primary, currentColor);
+  font-size: 12px;
+}
+
+.he-offline-text strong { color: #ffb454; }
+
+.he-copylog {
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--ui-text-secondary, currentColor);
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.he-copylog:hover { color: var(--theme-primary, currentColor); }
+
+.he-desktop-error .he-copylog { margin-left: 0.6rem; color: #ff8a8a; }
+
+.he-wsp-offline { color: #ffb454; }
